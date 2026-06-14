@@ -344,7 +344,7 @@
 <body>
   <header>
     <h1>Product Catalog</h1>
-    <p>${products.length} products found</p>
+    <p id="productCount">Loading...</p>
     <div class="header-controls">
       <div class="search-container">
         <input 
@@ -371,8 +371,7 @@
           <th>Expiry Date</th>
         </tr>
       </thead>
-      <tbody>${rows}
-      <tr colspan="7"><td align="right" >Total :${totalProducts} </td></tr>
+      <tbody id="productTableBody">
       </tbody>
       
     </table>
@@ -427,35 +426,56 @@
   </div>
 
   <script>
+    let allProducts = [];
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '—';
+      const d = new Date(dateStr);
+      if (isNaN(d)) return dateStr;
+      return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+
+    function buildRow(p, index) {
+      const discountVal = parseFloat(p.Discount) || 0;
+      const discountBadge = discountVal > 0
+        ? `<span class="discount">-${discountVal}%</span>`
+        : '';
+      const stockClass = p.QOH <= 10 ? 'low-stock' : '';
+
+      return `<tr data-index="${index}">
+        <td>${p.Sno}</td>
+        <td>
+          <div class="title">${p.Title}</div>
+          <div class="desc">${p.Description || ''}</div>
+        </td>
+        <td><span class="badge">${p.Category}</span></td>
+        <td class="price">₹${Number(p.Price).toFixed(2)}${discountBadge}</td>
+        <td class="${stockClass}">${p.QOH}</td>
+        <td>${formatDate(p.MfgDate)}</td>
+        <td>${formatDate(p.ExpiryDate)}</td>
+      </tr>`;
+    }
+
+    function renderTable(products) {
+      const tbody = document.getElementById('productTableBody');
+      const rows = products.map((p, i) => buildRow(p, i)).join('');
+      const total = products.length;
+      tbody.innerHTML = rows + `<tr><td colspan="6"></td><td style="text-align:right;color:#888;font-size:0.75rem;">Total: ${total}</td></tr>`;
+      document.getElementById('productCount').textContent = `${total} products found`;
+    }
+
     function filterTable() {
-      const searchInput = document.getElementById('searchInput');
-      const searchTerm = searchInput.value.toLowerCase();
-      const tableBody = document.querySelector('tbody');
-      const rows = tableBody.querySelectorAll('tr:not(:last-child)');
-      let visibleCount = 0;
-
-      rows.forEach(row => {
-        const productCell = row.querySelector('.title');
-        const categoryCell = row.querySelector('.badge');
-        
-        if (!productCell) return; // Skip the total row
-        
-        const productText = productCell.textContent.toLowerCase();
-        const categoryText = categoryCell ? categoryCell.textContent.toLowerCase() : '';
-        
-        if (productText.includes(searchTerm) || categoryText.includes(searchTerm)) {
-          row.style.display = '';
-          visibleCount++;
-        } else {
-          row.style.display = 'none';
-        }
-      });
-
-      // Update the product count
-      const headerP = document.querySelector('header p');
-      if (headerP) {
-        headerP.textContent = visibleCount + ' products found';
+      const term = document.getElementById('searchInput').value.toLowerCase().trim();
+      if (!term) {
+        renderTable(allProducts);
+        return;
       }
+      const filtered = allProducts.filter(p =>
+        (p.Title || '').toLowerCase().includes(term) ||
+        (p.Category || '').toLowerCase().includes(term) ||
+        (p.Description || '').toLowerCase().includes(term)
+      );
+      renderTable(filtered);
     }
 
     function openAddProductModal() {
@@ -469,39 +489,48 @@
 
     window.onclick = function(event) {
       const modal = document.getElementById('addProductModal');
-      if (event.target == modal) {
+      if (event.target === modal) {
         modal.style.display = 'none';
       }
     }
 
     function submitAddProduct(event) {
       event.preventDefault();
-      
       const formData = new FormData(document.getElementById('addProductForm'));
       const data = Object.fromEntries(formData);
-      
-      // Show loading state
-      const submitBtn = event.target.querySelector('[type="submit"]');
-      const originalText = submitBtn.textContent;
-      submitBtn.textContent = 'Adding...';
-      submitBtn.disabled = true;
 
-      google.script.run.withSuccessHandler((result) => {
-        if (result.success) {
-          alert('Product added successfully!');
-          closeAddProductModal();
-          location.reload(); // Refresh to show new product
-        } else {
-          alert('Error: ' + result.message);
-        }
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-      }).withFailureHandler((error) => {
-        alert('Error adding product: ' + error);
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-      }).addProduct(data);
+      const newProduct = {
+        Sno: allProducts.length + 1,
+        Title: data.title,
+        Description: data.description || '',
+        Category: data.category,
+        Price: parseFloat(data.price),
+        Discount: data.discount ? `${data.discount}%` : '0%',
+        QOH: parseInt(data.qoh),
+        MfgDate: data.mfgDate || '',
+        ExpiryDate: data.expiryDate || ''
+      };
+
+      allProducts.push(newProduct);
+      filterTable();
+      closeAddProductModal();
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('products.json')
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to load products.json');
+          return res.json();
+        })
+        .then(data => {
+          allProducts = data;
+          renderTable(allProducts);
+        })
+        .catch(err => {
+          document.getElementById('productCount').textContent = 'Error loading products';
+          console.error(err);
+        });
+    });
   </script>
 </body>
 </html>
