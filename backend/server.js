@@ -1,49 +1,41 @@
 const express = require("express");
-const sqlite3 = require("sqlite3").verbose();
+const cors = require("cors");
+const fs = require("fs");
 
 const app = express();
-const PORT = 3000;
 
+app.use(cors());
 app.use(express.json());
 
-// DB
-const db = new sqlite3.Database("./products.db");
+// GET all products
+app.get("/api/products", (req, res) => {
+  const products = JSON.parse(
+    fs.readFileSync("products.json", "utf8")
+  );
 
-// Table
-db.run(`
-CREATE TABLE IF NOT EXISTS products(
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-name TEXT NOT NULL,
-price INTEGER NOT NULL
-)
-`);
-
-// POST
-app.post("/api/products",(req,res)=>{
-
-const {name,price}=req.body;
-
-db.run(
-"INSERT INTO products(name,price) VALUES(?,?)",
-[name,price],
-
-function(err){
-
-if(err){
-return res.status(500).json({
-error:err.message
+  res.json(products);
 });
-}
 
-res.json({
-message:"Product Added",
-id:this.lastID
-});
+// POST new product
+app.post("/api/products", (req, res) => {
+
+  const products = JSON.parse(
+    fs.readFileSync("products.json", "utf8")
+  );
+
+  products.push(req.body);
+
+  fs.writeFileSync(
+    "products.json",
+    JSON.stringify(products, null, 2)
+  );
+
+  res.status(201).json({
+    message: "Product added successfully"
+  });
 
 });
 
-});
-
-app.listen(PORT,()=>{
-console.log("Server running on port 3000");
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
 });

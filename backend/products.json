@@ -1,0 +1,123 @@
+[
+  {
+    "Sno": 1,
+    "Title": "Laptop",
+    "Category": "Electronics",
+    "Description": "High-performance gaming laptop",
+    "Price": 2200,
+    "Discount": "10%",
+    "QOH": 25,
+    "ExpiryDate": "2026-12-31",
+    "MfgDate": "2024-01-15"
+  },
+  {
+    "Sno": 2,
+    "Title": "iPhone Apple",
+    "Category": "Electronics",
+    "Description": "5G enabled with 128GB storage",
+    "Price": 799,
+    "Discount": "5%",
+    "QOH": 4,
+    "ExpiryDate": "2027-06-30",
+    "MfgDate": "2024-02-10"
+  },
+  {
+    "Sno": 3,
+    "Title": "Office Chair",
+    "Category": "Furniture",
+    "Description": "Ergonomic mesh chair with lumbar support",
+    "Price": 189.5,
+    "Discount": "0%",
+    "QOH": 15,
+    "ExpiryDate": "2030-01-01",
+    "MfgDate": "2023-11-20"
+  },
+  {
+    "Sno": 4,
+    "Title": "Coffee Beans",
+    "Category": "Grocery",
+    "Description": "1kg Organic Arabica medium roast",
+    "Price": 18,
+    "Discount": "15%",
+    "QOH": 100,
+    "ExpiryDate": "2025-05-20",
+    "MfgDate": "2024-03-01"
+  },
+  {
+    "Sno": 5,
+    "Title": "Wireless Headphones",
+    "Category": "Electronics",
+    "Description": "Noise-canceling over-ear headphones",
+    "Price": 149.99,
+    "Discount": "20%",
+    "QOH": 60,
+    "ExpiryDate": "2026-10-15",
+    "MfgDate": "2024-01-05"
+  },
+  {
+    "Sno": 6,
+    "Title": "A2 Milk",
+    "Category": "Grocery",
+    "Description": "1L Whole Milk organic",
+    "Price": 3.5,
+    "Discount": "0%",
+    "QOH": 10,
+    "ExpiryDate": "2026-10-16",
+    "MfgDate": "2024-06-01"
+  },
+  {
+    "Sno": 7,
+    "Title": "Greek Yogurt",
+    "Category": "Grocery",
+    "Description": "500g Plain low-fat yogurt",
+    "Price": 4.99,
+    "Discount": "10%",
+    "QOH": 12,
+    "ExpiryDate": "2026-10-17",
+    "MfgDate": "2024-06-05"
+  },
+  {
+    "Sno": 8,
+    "Title": "Spinach",
+    "Category": "Grocery",
+    "Description": "250g Pre-washed baby spinach",
+    "Price": 2.99,
+    "Discount": "5%",
+    "QOH": 20,
+    "ExpiryDate": "2026-10-18",
+    "MfgDate": "2024-06-06"
+  },
+  {
+    "Sno": 9,
+    "Title": "Butter milk",
+    "Category": "fresh cream and caramel",
+    "Description": "Dairy",
+    "Price": 50,
+    "Discount": 5,
+    "QOH": 100,
+    "ExpiryDate": "2026-06-03",
+    "MfgDate": "2026-07-10"
+  },
+  {
+    "Sno": 10,
+    "Title": "butter",
+    "Category": "fresh cream and caramel",
+    "Description": "dairy",
+    "Price": 40,
+    "Discount": 5,
+    "QOH": 50,
+    "ExpiryDate": "2026-06-02",
+    "MfgDate": "2026-07-22"
+  },
+  {
+    "Sno": 11,
+    "Title": "meal",
+    "Category": "dairy",
+    "Description": "fresh",
+    "Price": 200,
+    "Discount": "3%",
+    "QOH": 500,
+    "MfgDate": "2026-06-27",
+    "ExpiryDate": "2026-08-06"
+  }
+]
