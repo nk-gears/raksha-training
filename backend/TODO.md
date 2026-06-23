@@ -26,3 +26,5 @@ METHDO : POST
 action:"update"
 
 }
+====
+- Explained about git branches to team
