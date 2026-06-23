@@ -28,3 +28,21 @@ action:"update"
 }
 ====
 - Explained about git branches to team
+
+
+Payment Feature
+
+payment-feature : team Lead can merge to main
+    - icici : merge to payment-feature branch : m1
+    - axis : m2
+    - kotak : m3
+
+    PR => payment-feature => main
+
+
+git checkout main
+git checkout payment-feature
+git checkout -b icici
+
+
+

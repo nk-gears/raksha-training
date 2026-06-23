@@ -1,0 +1,45 @@
+### GEt Data
+GET http://localhost:3000/api/products
+
+
+### POSt Data : Create Product
+
+POST http://localhost:3000/api/products
+Content-Type: application/json
+
+ {
+    "Sno": 12,
+    "Title": "Washing Machine",
+    "Category": "Electronics",
+    "Description": "5G enabled with 128GB storage",
+    "Price": 799,
+    "Discount": "5%",
+    "QOH": 4,
+    "ExpiryDate": "2027-06-30",
+    "MfgDate": "2024-02-10"
+  }
+
+
+### DELETE
+
+DELETE http://localhost:3000/api/products/37
+Content-Type: application/json
+
+### Notes
+
+
+HTTP Codes?
+Successfull
+200
+201
+202
+
+Redirect
+300
+301
+302
+
+Error
+400
+401
+500

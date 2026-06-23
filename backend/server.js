@@ -22,6 +22,7 @@ app.get("/api/products", (req, res) => {
   }
 });
 
+
 // 2. POST new product
 app.post("/api/products", (req, res) => {
   try {
